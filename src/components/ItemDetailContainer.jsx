@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Item from './Item';
 import productos from '../json/productos.json'; 
@@ -11,21 +11,27 @@ const ItemDetailContainer = () => {
 
   useEffect(() => {
     const fetchProduct = () => {
-      setTimeout(() => {
-        try {
-          // Busca el producto en el JSON x id
-          const foundProduct = productos.find(producto => producto.id === parseInt(itemId));
-          if (foundProduct) {
-            setProduct(foundProduct);
-          } else {
-            setError(new Error('Producto no encontrado'));
+      // Verificar si el itemId es un número válido
+      if (!isNaN(itemId)) {
+        setTimeout(() => {
+          try {
+            // Buscar el producto en el JSON por id
+            const foundProduct = productos.find(producto => producto.id === parseInt(itemId));
+            if (foundProduct) {
+              setProduct(foundProduct);
+            } else {
+              setError(new Error('Producto no encontrado'));
+            }
+            setLoading(false);
+          } catch (error) {
+            setError(error);
+            setLoading(false);
           }
-          setLoading(false);
-        } catch (error) {
-          setError(error);
-          setLoading(false);
-        }
-      }, 2000);
+        }, 2000);
+      } else {
+        setError(new Error('ID de producto no válido'));
+        setLoading(false);
+      }
     };
   
     fetchProduct();
@@ -48,7 +54,6 @@ const ItemDetailContainer = () => {
         precio={product.precio}
       />
       <p>{product.description}</p>
- 
     </div>
   );
 };
