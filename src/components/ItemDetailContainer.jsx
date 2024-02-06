@@ -4,38 +4,33 @@ import Item from './Item';
 import productos from '../json/productos.json'; 
 
 const ItemDetailContainer = () => {
-  const { itemId } = useParams();
+  const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProduct = () => {
-      // Verificar si el itemId es un número válido
-      if (!isNaN(itemId)) {
+      try {
+        // Simular una carga asíncrona
         setTimeout(() => {
-          try {
-            // Buscar el producto en el JSON por id
-            const foundProduct = productos.find(producto => producto.id === parseInt(itemId));
-            if (foundProduct) {
-              setProduct(foundProduct);
-            } else {
-              setError(new Error('Producto no encontrado'));
-            }
-            setLoading(false);
-          } catch (error) {
-            setError(error);
-            setLoading(false);
+          // Buscar el producto en el JSON por id
+          const foundProduct = productos.find(producto => producto.id === parseInt(id));
+          if (foundProduct) {
+            setProduct(foundProduct);
+          } else {
+            setError(new Error('Producto no encontrado'));
           }
+          setLoading(false);
         }, 2000);
-      } else {
-        setError(new Error('ID de producto no válido'));
+      } catch (error) {
+        setError(error);
         setLoading(false);
       }
     };
   
     fetchProduct();
-  }, [itemId]);
+  }, [id]);
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -53,7 +48,7 @@ const ItemDetailContainer = () => {
         imagen={product.imagen}
         precio={product.precio}
       />
-      <p>{product.description}</p>
+      <p>{product.descripcion}</p>  
     </div>
   );
 };

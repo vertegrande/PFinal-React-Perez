@@ -1,13 +1,16 @@
-import { } from 'react';
-import { Link } from 'react-router-dom';  
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Item = ({ id, nombre, imagen, precio }) => {
+  const handleClick = () => {
+    console.log("ID del producto:", id);
+    console.log("Nombre del producto:", nombre); // Agregar console.log para el nombre del producto
+  };
+
   return (
     <div className="col-md-3">
       <div className="card mb-1 border-0 ">
-        {/* contenido con Link y configura la to prop */}
-        <Link to={`/item/${id}`}>
+        <Link to={`/item/${id}`} onClick={handleClick}>
           <img src={imagen} className="img-fluid" alt={nombre} />
           <div className="card-body">
             <p className="badge text-bg-dark border-bottom ">${precio}</p>
