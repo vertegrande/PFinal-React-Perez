@@ -1,9 +1,9 @@
-import  { useContext } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { CartContext } from './CartContext';  
 
-const Item = ({ id, nombre, imagen, precio }) => {
+const Item = ({ id, nombre, imagen, precio, docId }) => {
   const { addItem } = useContext(CartContext); 
 
   const handleClick = () => {
@@ -21,11 +21,10 @@ const Item = ({ id, nombre, imagen, precio }) => {
             <p className="badge rounded-0 bg-warning border-bottom ">${precio}</p>
             <h6 className=" border-top pt-4 fw-bold link-dark">{nombre}</h6>
             <small className="link-dark">SKU: {id}</small>
-          </div>
+           </div>
         </Link>
         <button className="btn btn-dark rounded-0" onClick={handleClick}>Agregar al carrito</button> 
-         
-      </div>
+       </div>
     </div>
   );
 };
@@ -34,7 +33,8 @@ Item.propTypes = {
   id: PropTypes.number.isRequired,
   nombre: PropTypes.string.isRequired,
   imagen: PropTypes.string.isRequired,
-  precio: PropTypes.number.isRequired
+  precio: PropTypes.number.isRequired,
+  docId: PropTypes.string.isRequired // Propiedad para el Document ID
 };
 
 export default Item;

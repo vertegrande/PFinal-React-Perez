@@ -41,16 +41,15 @@ const ItemDetailContainer = () => {
   }
 
   return (
-    <div className='container row'>
-       <div className='col-12 mx-auto'>
+    <div>
       <Item
         id={product.id}
         nombre={product.nombre}
         imagen={product.imagen}
         precio={product.precio}
       />
-      <p className='lead'>{product.descripcion}</p>  
-    </div> </div>
+      <p>{product.descripcion}</p>  
+    </div>
   );
 };
 

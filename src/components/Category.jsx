@@ -4,7 +4,7 @@ import ItemList from './ItemList';
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
 const Category = () => {
-  const { category } = useParams(); // Obtener la categoría de los parámetros de la URL
+  const { category } = useParams();  
   const [filteredItems, setFilteredItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,8 +12,7 @@ const Category = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        // Limpiar la lista de productos filtrados al inicio
-        setFilteredItems([]);
+         setFilteredItems([]);
 
         const db = getFirestore();
         const itemsCollection = collection(db, 'items');
