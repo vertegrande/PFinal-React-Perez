@@ -1,25 +1,52 @@
-import   { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ItemList from './ItemList';
-import productos from '../json/productos.json';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
 const Category = () => {
   const { category } = useParams(); // Obtener la categoría de los parámetros de la URL
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Filtrar los productos basándose en la categoría seleccionada
-    const filtered = productos.filter(producto => producto.categoria === category);
-    setFilteredProducts(filtered);
-  }, [category]); // Ejecutar efecto cuando cambie la categoría
+    const fetchItems = async () => {
+      try {
+        // Limpiar la lista de productos filtrados al inicio
+        setFilteredItems([]);
+
+        const db = getFirestore();
+        const itemsCollection = collection(db, 'items');
+        const categoryQuery = query(itemsCollection, where('categoria', '==', category));
+        const querySnapshot = await getDocs(categoryQuery);
+
+        const filtered = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setFilteredItems(filtered);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
+  }, [category]);
+
+  if (loading) {
+    return <div>Cargando productos...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
-         <section className='bg-warning'>
- <h2 className='container py-3 display-6 text-uppercase text-black-50'>{category}</h2> </section>
-      <ItemList productos={filteredProducts} />
+      <section className='bg-warning'>
+        <h2 className='container py-3 display-6 text-uppercase text-black-50'>{category}</h2>
+      </section>
+      <ItemList productos={filteredItems} />
     </div>
-   
   );
 };
 
