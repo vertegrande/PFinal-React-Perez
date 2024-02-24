@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import ItemList from './ItemList';
-import arrayProductos from '../json/productos.json';
+import   { useState, useEffect } from 'react';
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import Item from './Item';
+import CartContextProvider from './CartContext';  
 
 const ItemListContainer = () => {
   const [productos, setProductos] = useState([]);
@@ -8,25 +9,23 @@ const ItemListContainer = () => {
   const [error, setError] = useState(null);
  
   useEffect(() => {
-    const fetchProductos = () => {
-      // Simular una llamada a una API con retardo
-      setTimeout(() => {
-        try {
-          setProductos(arrayProductos);
-          setLoading(false);
-        } catch (error) {
-          setError(error);
-          setLoading(false);
-        }
-      }, 2000);
+    const fetchProductos = async () => {
+      try {
+        const db = getFirestore();
+        const itemsCollection = collection(db, "items");
+        const querySnapshot = await getDocs(itemsCollection);
+
+        const productosData = querySnapshot.docs.map(doc => doc.data());
+        setProductos(productosData);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
     };
 
     fetchProductos();
   }, []);
-
- 
-  let productosFiltrados = productos;
- 
 
   if (loading) {
     return <div>Cargando productos...</div>;
@@ -37,9 +36,22 @@ const ItemListContainer = () => {
   }
 
   return (
-    <div>
-      <ItemList productos={productosFiltrados} />
-    </div>
+    <CartContextProvider>
+      <div className="container mt-3">
+        <div className="row">
+          {productos.map(producto => (
+            <Item
+              key={producto.id}
+              nombre={producto.nombre}
+              precio={producto.precio}
+              imagen={producto.imagen}
+              descripcion={producto.descripcion}
+              id={producto.id}
+            />
+          ))}
+        </div>
+      </div>
+    </CartContextProvider>
   );
 };
 

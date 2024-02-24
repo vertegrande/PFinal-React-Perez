@@ -7,7 +7,9 @@ import Category from './components/Category';
 import ItemDetailContainer from './components/ItemDetailContainer';
 import Footer from './components/Footer';
 import CartContextProvider from './components/CartContext';
-import Cart from './components/Cart'; // Importa el componente Cart
+import Cart from './components/Cart'; 
+
+
 
 const App = () => {
   return (
@@ -20,7 +22,7 @@ const App = () => {
             <Route exact path="/" element={<ItemListContainer />} />
             <Route path="/category/:category" element={<Category />} />
             <Route path="/item/:id" element={<ItemDetailContainer />} />
-            <Route path="/cart" element={<Cart />} /> {/* Aquí corregido */}
+            <Route path="/cart" element={<Cart />} /> 
           </Routes>
           <Footer />
         </div>
@@ -30,3 +32,4 @@ const App = () => {
 };
 
 export default App;
+
