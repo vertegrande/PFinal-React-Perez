@@ -6,3 +6,11 @@ a {
   color: var(--bs-link-color);
   text-decoration: none !important;
 }
+.bg-warning, .bg-warning a {
+  --bs-bg-opacity: 1;
+  background-color: #b48046 !important;
+  color: #fff !important;
+}
+.display-6 {
+  font-size: 1.5rem;
+}

@@ -15,9 +15,11 @@ const Category = () => {
 
   return (
     <div>
-      <h2>{category}</h2>
+         <section className='bg-warning'>
+ <h2 className='container py-3 display-6 text-uppercase text-black-50'>{category}</h2> </section>
       <ItemList productos={filteredProducts} />
     </div>
+   
   );
 };
 

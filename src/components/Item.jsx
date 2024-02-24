@@ -1,23 +1,29 @@
+import  { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { CartContext } from './CartContext'; // Asegúrate de importar correctamente el contexto del carrito
 
 const Item = ({ id, nombre, imagen, precio }) => {
+  const { addItem } = useContext(CartContext); // Obtener la función addItem del contexto del carrito
+
   const handleClick = () => {
     console.log("ID del producto:", id);
     console.log("Nombre del producto:", nombre); // Agregar console.log para el nombre del producto
+    addItem({ id, nombre, imagen, precio }, 1); // Llamar a la función addItem con los datos del producto
   };
 
   return (
     <div className="col-md-3">
-      <div className="card mb-1 border-0 ">
-        <Link to={`/item/${id}`} onClick={handleClick}>
+      <div className="card mb-1 border-0 mb-4">
+        <Link to={`/item/${id}`}>
           <img src={imagen} className="img-fluid" alt={nombre} />
           <div className="card-body">
-            <p className="badge text-bg-dark border-bottom ">${precio}</p>
-            <h6 className="fw-bold link-dark">{nombre}</h6>
+            <p className="badge rounded-0 bg-warning border-bottom ">${precio}</p>
+            <h6 className=" border-top pt-4 fw-bold link-dark">{nombre}</h6>
             <small className="link-dark">SKU: {id}</small>
           </div>
         </Link>
+        <button className="btn btn-dark rounded-0" onClick={handleClick}>Agregar al carrito</button> {/* Botón para agregar al carrito */}
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import goodvibesLogo from '../assets/goodvibes.png';
+import CartWidget from "./CartWidget";
+
 
 const NavBar = () => {
   // Función para imprimir la ruta al hacer clic en un enlace
@@ -42,13 +44,14 @@ const NavBar = () => {
                 Sombreros
               </NavLink>
             </li>
+          
           </ul>
 
           <span className="d-none d-sm-block me-5">
             <span className="btn btn-dark position-relative">
-              <NavLink className="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill fa-icon-wait" to="/carrito" onClick={() => logRouteOnClick("/carrito")}>
+              <NavLink className="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill fa-icon-wait" to="/cart" onClick={() => logRouteOnClick("/carrito")}>
                 <i className="fa fa-shopping-cart" style={{ fontSize: '15px', transformOrigin: '0.5625em 0.5em' }}></i>
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">1</span>
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-secondary"> <CartWidget /></span>
               </NavLink>
             </span>
           </span>

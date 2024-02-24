@@ -6,8 +6,7 @@ const ItemListContainer = () => {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filtroCategoria, setFiltroCategoria] = useState('');
-
+ 
   useEffect(() => {
     const fetchProductos = () => {
       // Simular una llamada a una API con retardo
@@ -25,14 +24,9 @@ const ItemListContainer = () => {
     fetchProductos();
   }, []);
 
-  const handleFiltroChange = (e) => {
-    setFiltroCategoria(e.target.value);
-  };
-
+ 
   let productosFiltrados = productos;
-  if (filtroCategoria) {
-    productosFiltrados = productos.filter(producto => producto.categoria === filtroCategoria);
-  }
+ 
 
   if (loading) {
     return <div>Cargando productos...</div>;
@@ -44,17 +38,6 @@ const ItemListContainer = () => {
 
   return (
     <div>
-      <div>
-        <label htmlFor="filtroCategoria">Filtrar por categoría:</label>
-        <select id="filtroCategoria" value={filtroCategoria} onChange={handleFiltroChange}>
-          <option value="">Todos</option>
-          <option value="materos">Termos y Mates</option>
-          <option value="buzos">Buzos</option>
-          <option value="remeras">Remeras</option>
-          <option value="camisas">Camisas</option>
-          <option value="sombreros">Sombreros</option>
-        </select>
-      </div>
       <ItemList productos={productosFiltrados} />
     </div>
   );
